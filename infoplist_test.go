@@ -22,7 +22,15 @@ var (
 		"NSAppTransportSecurity": map[string]interface{}{
 			"NSAllowsArbitraryLoads": true,
 		},
-		"": "",
+		"SliceDict": []map[string]interface{}{{
+			"SliceDictKey1": "SliceDictVal1",
+		}, {
+			"SliceDictKey2": "SliceDictVal2",
+		}, {
+			"SliceDictKey3": []interface{}{"val1", "val2"},
+		}},
+		"Slice": []interface{}{"val1", "val2"},
+		"":      "",
 	}
 )
 

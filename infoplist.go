@@ -33,6 +33,14 @@ type (
 		Key   string
 		Value interface{}
 	}
+	Slice struct {
+		XMLName xml.Name      `xml:"array"`
+		Items   []interface{} `xml:"string"`
+	}
+	SliceDict struct {
+		XMLName xml.Name `xml:"array"`
+		Items   []*Dict
+	}
 	InfoPlist struct {
 		XMLName xml.Name `xml:"plist"`
 		Version string   `xml:"version,attr"`
@@ -52,7 +60,7 @@ func (di DictItem) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return e.EncodeElement("", xml.StartElement{
 			Name: xml.Name{Space: "", Local: fmt.Sprintf("%t", di.Value)},
 		})
-	case *Dict:
+	case *Dict, *Slice:
 		return e.Encode(di.Value)
 	default:
 		return e.EncodeElement(di.Value, valueElem)
@@ -90,8 +98,28 @@ func mapToDictItems(m map[string]interface{}) []*DictItem {
 	for k, v := range m {
 		if vm, ok := v.(map[string]interface{}); ok {
 			v = &Dict{Items: mapToDictItems(vm)}
+		} else if vm, ok := v.([]map[string]interface{}); ok {
+			v = &SliceDict{Items: arrayToDictSlice(vm)}
+		} else if vm, ok := v.([]interface{}); ok {
+			v = &Slice{Items: arrayToSlice(vm)}
 		}
 		items = append(items, &DictItem{k, v})
+	}
+	return items
+}
+
+func arrayToDictSlice(array []map[string]interface{}) []*Dict {
+	items := make([]*Dict, 0)
+	for _, i := range array {
+		items = append(items, &Dict{Items: mapToDictItems(i)})
+	}
+	return items
+}
+
+func arrayToSlice(array []interface{}) []interface{} {
+	items := make([]interface{}, 0)
+	for _, i := range array {
+		items = append(items, i)
 	}
 	return items
 }
