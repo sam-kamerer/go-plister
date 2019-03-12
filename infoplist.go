@@ -38,7 +38,7 @@ type (
 		Items   []interface{} `xml:"string"`
 	}
 	SliceDict struct {
-		XMLName xml.Name `xml:"array"`
+		XMLName xml.Name `xml:"dict"`
 		Items   []*Dict
 	}
 	InfoPlist struct {
@@ -60,7 +60,7 @@ func (di DictItem) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 		return e.EncodeElement("", xml.StartElement{
 			Name: xml.Name{Space: "", Local: fmt.Sprintf("%t", di.Value)},
 		})
-	case *Dict, *Slice:
+	case *Dict, *Slice, *SliceDict:
 		return e.Encode(di.Value)
 	default:
 		return e.EncodeElement(di.Value, valueElem)
@@ -119,6 +119,9 @@ func arrayToDictSlice(array []map[string]interface{}) []*Dict {
 func arrayToSlice(array []interface{}) []interface{} {
 	items := make([]interface{}, 0)
 	for _, i := range array {
+		if m, ok := i.(map[string]interface{}); ok {
+			i = &Dict{Items: mapToDictItems(m)}
+		}
 		items = append(items, i)
 	}
 	return items
