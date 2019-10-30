@@ -26,15 +26,17 @@ var dict = map[string]interface{}{
     "NSAppTransportSecurity": map[string]interface{}{
         "NSAllowsArbitraryLoads": true,
     },
-    "CFBundleURLTypes": []map[string]interface{}{{
-        "CFBundleTypeRole":   "Viewer",
-        "CFBundleURLName":    "com.developer.testapp",
-        "CFBundleURLSchemes": []interface{}{"testappscheme"},
-    }, {
-        "CFBundleTypeRole":   "Reader",
-        "CFBundleURLName":    "com.developer.testapp",
-        "CFBundleURLSchemes": []interface{}{"testappscheme-read"},
-    }},
+    "CFBundleURLTypes": []map[string]interface{}{
+        {
+            "CFBundleTypeRole":   "Viewer",
+            "CFBundleURLName":    "com.developer.testapp",
+            "CFBundleURLSchemes": []interface{}{"testappscheme"},
+        }, {
+            "CFBundleTypeRole":   "Reader",
+            "CFBundleURLName":    "com.developer.testapp",
+            "CFBundleURLSchemes": []interface{}{"testappscheme-read"},
+        },
+    },
 }
 
 func main() {
