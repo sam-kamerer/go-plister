@@ -137,7 +137,7 @@ func Fprint(w io.Writer, data *InfoPlist) error {
 }
 
 func Generate(path string, data *InfoPlist) error {
-	fp, err := os.OpenFile(path, os.O_CREATE|os.O_TRUNC|os.O_EXCL|os.O_WRONLY, 0644)
+	fp, err := os.OpenFile(path, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
 	}
