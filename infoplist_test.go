@@ -113,3 +113,10 @@ func TestGenerateFromMap(t *testing.T) {
 	}
 	defer os.Remove(filePath)
 }
+
+func TestParse(t *testing.T) {
+	_, err := Parse("testdata/test.plist")
+	if err != nil {
+		t.Error(err)
+	}
+}
