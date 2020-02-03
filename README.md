@@ -1,5 +1,5 @@
 # go-plister [![Build Status](https://travis-ci.org/sam-kamerer/go-plister.svg?branch=master)](https://travis-ci.org/sam-kamerer/go-plister) [![Coverage Status](https://coveralls.io/repos/github/sam-kamerer/go-plister/badge.svg?branch=master)](https://coveralls.io/github/sam-kamerer/go-plister?branch=master)
-A simple Apple Property List generator
+A simple Apple Property List generator and parser
 
 ### Usage
 ```go
@@ -60,5 +60,14 @@ func main() {
     if err := plister.Fprint(fp, infoPlist); err != nil {
     	log.Fatal(err)
     }
+
+    // or
+    
+    plist, err := plister.Parse("path/to/Info.plist")
+    if err != nil {
+        log.Fatal(err)
+    }
+    keyValue := plist.Get("someKey")
+    log.Println(keyValue)
 }
 ```
